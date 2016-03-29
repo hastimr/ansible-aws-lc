@@ -1,0 +1,29 @@
+---
+- fail: msg="The minimum Ansible version required to run is 2.0.1. To upgrade run 'sudo pip install --upgrade ansible'."
+  when: ansible_version.major|int != 2 and ansible_version.minor|int < 0 and ansible_version.revision|int < 1
+
+# tasks file for aws-lc
+- include: find-ami.yaml
+  when: ec2_find_ami_name is defined
+
+- name: create launch config
+  ec2_lc:
+    name: "{{ vivareal_project_build }}"
+    image_id: "{{ ec2_ami_image_id }}"
+    key_name: "{{ ec2_key_name }}"
+    region: "{{ region }}"
+    security_groups: "{{ ec2_sg_id }}"
+    instance_profile_name: "{{ ec2_instance_profile_name }}"
+    instance_type: "{{ ec2_instance_type | default('t2.micro') }}"
+    instance_monitoring: "{{ ec2_lc_instance_monitoring | default(True) }}"
+    assign_public_ip: "{{ ec2_assign_public_ip | default('no') }}"
+    state: "{{ state | default('present') }}"
+    user_data: |
+      #!/bin/bash -x
+      /opt/infra/ch-hostname.sh forced >> /opt/infra/ch-hostname.log 2>&1 #common role
+      {{ ec2_lc_user_data | default('') }}
+  tags: aws_lc
+  register: aws_lc
+
+- name: set fact aws_lc
+  set_fact: ec2_launch_config_name="{{ aws_lc.name }}"

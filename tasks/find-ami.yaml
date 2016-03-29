@@ -1,0 +1,13 @@
+#TODO merge with ec2-provisiong
+- name: Search for the latest vivareal ami
+  ec2_ami_find:
+    name: "{{ ec2_find_ami_name }}"
+    owner: "{{ aws_owner | default('self') }}"
+    sort: name
+    region: "{{ region }}"
+    sort_order: descending
+    sort_end: 1
+  register: ec2_ami_find
+
+- name: set fact ec2_ami_image_id
+  set_fact: ec2_ami_image_id="{{ ec2_ami_find.results[0].ami_id }}"
