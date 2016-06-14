@@ -25,7 +25,6 @@ Role Variables
 | ec2_find_ami_name                   | yes if  ec2_ami_image_id is empty    |        | Image name (ami) to find |
 | aws_owner_id                   | no      |   self      | Search AMIs owned by the specified owner. Can specify an AWS account ID, or one of the special IDs 'self', 'amazon' or 'aws-marketplace'. If not specified, all EC2 AMIs in the specified region will be searched.|
 |ec2_volumes    | no | | |a list of hash/dictionaries of volumes to add to the new instance; '[{"key":"value", "key":"value"}]'; keys allowed are - device_name (str; required), delete_on_termination (bool; False), device_type (deprecated), ephemeral (str), encrypted (bool; False), snapshot (str), volume_type (str), iops (int) - device_type is deprecated use volume_type, iops must be set when volume_type='io1', ephemeral and snapshot are mutually exclusive.  |
-| aws_resource_tags  | yes  |   | | a hash/dictionary of tags to add to the new instance or for starting/stopping instance by tag; '{"key":"value"}' and '{"VREnv":"PROD","VRProject":"sample","VRTeam":"infra", "Name":"instance_name"}' |
 | aws_resource_tags  | yes  |   | | a hash/dictionary of tags to add to the new instance or for starting/stopping instance by tag; '{"key":"value"}' and '{"VREnv":"PROD","VRProject":"sample","VRTeam":"infra", "Name":"ami name"}' |
 | vivareal_project_build                   | no      |         | Unique name for lc. |
 | user_data  |no| | opaque blob of data which is made available to the ec2 instance. Ch-hostname.sh forced override. ||
