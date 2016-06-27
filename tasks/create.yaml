@@ -9,6 +9,7 @@
     instance_type: "{{ ec2_instance_type | default('t2.micro') }}"
     instance_monitoring: "{{ ec2_lc_instance_monitoring | default(True) }}"
     assign_public_ip: "{{ ec2_assign_public_ip | default('no') }}"
+    volumes: "{{ ec2_volumes | default(omit) }}"
     state: "{{ state | default('present') }}"
     user_data: |
       #!/bin/bash -x
