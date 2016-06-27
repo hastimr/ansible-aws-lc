@@ -1,4 +1,4 @@
-Role Name
+Role Name [![CircleCI](https://circleci.com/gh/VivaReal/ansible-aws-lc/tree/master.svg?style=svg&circle-token=3f2840b6d00b5f12cc4640aaace5d8ab7294328f)](https://circleci.com/gh/VivaReal/ansible-aws-lc/tree/master)
 =========
 
 This role manage [launch configuration](http://docs.aws.amazon.com/AutoScaling/latest/DeveloperGuide/LaunchConfiguration.html).
@@ -27,7 +27,7 @@ Role Variables
 | aws_resource_tags  | yes  |   | | a hash/dictionary of tags to add to the new instance or for starting/stopping instance by tag; '{"key":"value"}' and '{"VREnv":"PROD","VRProject":"sample","VRTeam":"infra", "Name":"ami name"}' |
 | vivareal_project_build                   | no      |         | Unique name for lc. |
 | user_data  |no| | opaque blob of data which is made available to the ec2 instance. Ch-hostname.sh forced override. ||
-| state | no  | present  | register or deregister the instance|
+| state | no  | present  | create or destroy  launch configuration|
 | region                   | no      |         | The AWS region to use. If not specified then the value of the AWS_REGION or EC2_REGION environment variable, if any, is used.  |
 
 Dependencies
@@ -38,18 +38,26 @@ When this playbook run sucessfull, register variable *ec2_launch_config_name* th
 
 Example Playbook
 ----------------
+
     - hosts: localhost
-          vars:
-            ec2_key_name: master
-            ec2_find_ami_name: "ubuntu-docker-base-ami-1*"
-            ec2_sg_id: ['sg-1958ae61', 'sg-32f1634b', 'sg-ac9e63d4']
-            ec2_lc_user_data: |
-                docker pull nginx  
-                docker run -d nginx
+      vars:
+        ec2_key_name: master
+        ec2_find_ami_name: "ubuntu-docker-base-ami-1*"
+        ec2_sg_id: ['sg-1958ae61', 'sg-32f1634b', 'sg-ac9e63d4']
+        ec2_lc_user_data: |
+            docker pull nginx  
+            docker run -d nginx
       roles:
         - { role: aws-lc }
    
+Destroy Stack
+----------------
 
+    - hosts: localhost
+      vars:
+        vivareal_project_build: my-lc-name
+      roles:
+        - { role: aws-lc, state: absent }
 
 License
 -------
