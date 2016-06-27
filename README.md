@@ -1,4 +1,4 @@
-Role Name
+Role Name [![CircleCI](https://circleci.com/gh/VivaReal/ansible-aws-lc.svg?style=svg)](https://circleci.com/gh/VivaReal/ansible-aws-lc)
 =========
 
 This role manage [launch configuration](http://docs.aws.amazon.com/AutoScaling/latest/DeveloperGuide/LaunchConfiguration.html).
