@@ -1,4 +1,4 @@
-Role Name [![CircleCI](https://circleci.com/gh/VivaReal/ansible-aws-lc/tree/master.svg?style=svg&circle-token=3f2840b6d00b5f12cc4640aaace5d8ab7294328f)](https://circleci.com/gh/VivaReal/ansible-aws-lc/tree/master)
+Role Name
 =========
 
 This role manage [launch configuration](http://docs.aws.amazon.com/AutoScaling/latest/DeveloperGuide/LaunchConfiguration.html).
@@ -23,11 +23,12 @@ Role Variables
 | ec2_lc_instance_monitoring  |no|True| |whether instances in group are launched with detailed monitoring.|
 | ec2_assign_public_ip  |no|True| Used for Auto Scaling groups that launch instances into an Amazon Virtual Private Cloud. Specifies whether to assign a public IP address to each instance launched in a Amazon VPC.|
 | ec2_find_ami_name                   | yes if  ec2_ami_image_id is empty    |        | Image name (ami) to find |
+| ec2_volumes    | no | |a list of hash/dictionaries of volumes to add to the new instance; '[{"key":"value", "key":"value"}]'; keys allowed are - device_name (str; required), delete_on_termination (bool; False), device_type (deprecated), ephemeral (str), encrypted (bool; False), snapshot (str), volume_type (str), iops (int) - device_type is deprecated use volume_type, iops must be set when volume_type='io1', ephemeral and snapshot are mutually exclusive.  |
 | aws_owner_id                   | no      |   self      | Search AMIs owned by the specified owner. Can specify an AWS account ID, or one of the special IDs 'self', 'amazon' or 'aws-marketplace'. If not specified, all EC2 AMIs in the specified region will be searched.|
-| aws_resource_tags  | yes  |   | | a hash/dictionary of tags to add to the new instance or for starting/stopping instance by tag; '{"key":"value"}' and '{"VREnv":"PROD","VRProject":"sample","VRTeam":"infra", "Name":"ami name"}' |
+| aws_resource_tags  | yes  |    | a hash/dictionary of tags to add to the new instance or for starting/stopping instance by tag; '{"key":"value"}' and '{"VREnv":"PROD","VRProject":"sample","VRTeam":"infra", "Name":"ami name"}' |
 | vivareal_project_build                   | no      |         | Unique name for lc. |
 | user_data  |no| | opaque blob of data which is made available to the ec2 instance. Ch-hostname.sh forced override. ||
-| state | no  | present  | create or destroy  launch configuration|
+| state | no  | present  | register or deregister the instance|
 | region                   | no      |         | The AWS region to use. If not specified then the value of the AWS_REGION or EC2_REGION environment variable, if any, is used.  |
 
 Dependencies
@@ -38,15 +39,14 @@ When this playbook run sucessfull, register variable *ec2_launch_config_name* th
 
 Example Playbook
 ----------------
-
     - hosts: localhost
-      vars:
-        ec2_key_name: master
-        ec2_find_ami_name: "ubuntu-docker-base-ami-1*"
-        ec2_sg_id: ['sg-1958ae61', 'sg-32f1634b', 'sg-ac9e63d4']
-        ec2_lc_user_data: |
-            docker pull nginx  
-            docker run -d nginx
+          vars:
+            ec2_key_name: master
+            ec2_find_ami_name: "ubuntu-docker-base-ami-1*"
+            ec2_sg_id: ['sg-1958ae61', 'sg-32f1634b', 'sg-ac9e63d4']
+            ec2_lc_user_data: |
+                docker pull nginx  
+                docker run -d nginx
       roles:
         - { role: aws-lc }
    
