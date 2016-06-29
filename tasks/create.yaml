@@ -13,7 +13,6 @@
     state: "{{ state | default('present') }}"
     user_data: |
       #!/bin/bash -x
-      /opt/infra/ch-hostname.sh forced >> /opt/infra/ch-hostname.log 2>&1 #common role
       {{ ec2_lc_user_data | default('') }}
   tags: aws_lc
   register: aws_lc
