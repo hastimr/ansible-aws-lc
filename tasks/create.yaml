@@ -1,6 +1,6 @@
 - name: create launch config
   ec2_lc:
-    name: "{{ aws_resource_tags.Env }}-{{ aws_resource_tags.Product }}-{{ aws_resource_tags.App }}-{{ aws_resource_tags.Process }}-{{ aws_resource_tags.Release }}"
+    name: "{{ vivareal_project_build }}"
     image_id: "{{ ec2_ami_image_id }}"
     key_name: "{{ ec2_key_name }}"
     region: "{{ region }}"
