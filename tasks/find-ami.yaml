@@ -3,7 +3,7 @@
   ec2_ami_find:
     name: "{{ ec2_find_ami_name }}"
     owner: "{{ aws_owner | default('self') }}"
-    sort: name
+    sort: "{{ ec2_find_ami_sort | default('name') }}"
     region: "{{ region }}"
     sort_order: descending
     sort_end: 1

@@ -23,6 +23,7 @@ Role Variables
 | ec2_lc_instance_monitoring  |no|True |whether instances in group are launched with detailed monitoring.|
 | ec2_assign_public_ip  |no|True| Used for Auto Scaling groups that launch instances into an Amazon Virtual Private Cloud. Specifies whether to assign a public IP address to each instance launched in a Amazon VPC.|
 | ec2_find_ami_name                   | yes if  ec2_ami_image_id is empty    |        | Image name (ami) to find |
+| ec2_find_ami_sort | no | name | Sort method used to find AMI (name, creationDate, tag, etc.)|
 | ec2_volumes    | no | |a list of hash/dictionaries of volumes to add to the new instance; '[{"key":"value", "key":"value"}]'; keys allowed are - device_name (str; required), delete_on_termination (bool; False), device_type (deprecated), ephemeral (str), encrypted (bool; False), snapshot (str), volume_type (str), iops (int) - device_type is deprecated use volume_type, iops must be set when volume_type='io1', ephemeral and snapshot are mutually exclusive.  |
  |ec2_ebs_optimized | no| false |  whether instance is using [optimized EBS](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSOptimized.html) volumes.|
 | aws_owner_id                   | no      |   self      | Search AMIs owned by the specified owner. Can specify an AWS account ID, or one of the special IDs 'self', 'amazon' or 'aws-marketplace'. If not specified, all EC2 AMIs in the specified region will be searched.|
